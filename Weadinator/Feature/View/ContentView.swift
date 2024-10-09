@@ -14,6 +14,7 @@ struct ContentView: View {
                 .imageScale(.large)
                 .foregroundStyle(.tint)
             Text("docuHistoryTest")
+            Text("Making requirments for the app")
         }
         .padding()
     }
