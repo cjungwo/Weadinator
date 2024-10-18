@@ -9,17 +9,19 @@ import SwiftUI
 
 struct MainTabView: View {
   var body: some View {
-    TabView {
-      Tab {
-        HomeView()
-      } label: {
-        Label("Home", systemImage: "cloud.sun")
-      }
+    NavigationStack {
+      TabView {
+        Tab {
+          HomeView()
+        } label: {
+          Label("Home", systemImage: "cloud.sun")
+        }
 
-      Tab {
-        WardrobeView()
-      } label: {
-        Label("Wardrobe", systemImage: "door.french.closed")
+        Tab {
+          WardrobeView()
+        } label: {
+          Label("Wardrobe", systemImage: "door.french.closed")
+        }
       }
     }
   }
