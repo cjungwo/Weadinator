@@ -10,6 +10,8 @@ import SwiftData
 
 @Model
 class Clothing {
+  #Unique<Clothing>([\.id])
+
   var id: UUID
   var title: String
   var clothingImage: URL
