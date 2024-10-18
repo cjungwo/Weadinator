@@ -8,8 +8,9 @@
 import Foundation
 
 enum ClothingType: String, Codable {
-  case top
-  case bottom
+  case jacket
+  case shirt
+  case trousers
   case shoes
   case accessories
 }
