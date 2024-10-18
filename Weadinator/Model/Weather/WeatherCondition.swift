@@ -6,3 +6,11 @@
 //
 
 import Foundation
+
+enum WeatherCondition: String, Codable {
+    case clear
+    case cloudy
+    case rainy
+    case snow
+    case thunder
+}
