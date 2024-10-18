@@ -17,7 +17,7 @@ class Clothing {
   var clothingImage: URL
   var clothingType: ClothingType
   var warmthLevel: WarmthLevel
-  var clothingColor: Color
+  var clothingColor: String
 
   init(
     id: UUID = .init(),
@@ -32,6 +32,6 @@ class Clothing {
     self.clothingImage = clothingImage
     self.clothingType = clothingType
     self.warmthLevel = warmthLevel
-    self.clothingColor = clothingColor
+    self.clothingColor = clothingColor.description
   }
 }
