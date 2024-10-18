@@ -11,13 +11,13 @@ struct MainTabView: View {
   var body: some View {
     TabView {
       Tab {
-        Text("HomeView")
+        HomeView()
       } label: {
         Label("Home", systemImage: "cloud.sun")
       }
 
       Tab {
-        Text("WardrobeView")
+        WardrobeView()
       } label: {
         Label("Wardrobe", systemImage: "door.french.closed")
       }
