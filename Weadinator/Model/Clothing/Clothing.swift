@@ -5,13 +5,33 @@
 //  Created by JungWoo Choi on 18/10/2024.
 //
 
-import Foundation
+import SwiftUI
+import SwiftData
 
-class Clothing: Codable {
-  let id: String
-  let name: String
-  let image: URL
-  let clothingType: ClothingType
+@Model
+class Clothing {
+  #Unique<Clothing>([\.id])
+
+  var id: UUID
+  var title: String
+  var clothingImage: URL
+  var clothingType: ClothingType
   var warmthLevel: WarmthLevel
-  let color: String
+  var clothingColor: Color
+
+  init(
+    id: UUID = .init(),
+    title: String?,
+    clothingImage: URL,
+    clothingType: ClothingType,
+    warmthLevel: WarmthLevel,
+    clothingColor: Color = .black
+  ) {
+    self.id = id
+    self.title = title ?? clothingType.rawValue + id.uuidString
+    self.clothingImage = clothingImage
+    self.clothingType = clothingType
+    self.warmthLevel = warmthLevel
+    self.clothingColor = clothingColor
+  }
 }
