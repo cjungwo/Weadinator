@@ -14,7 +14,7 @@ class Clothing {
 
   var id: UUID
   var title: String
-  var clothingImage: URL
+  var clothingImage: Data
   var clothingType: ClothingType
   var warmthLevel: WarmthLevel
   var clothingColor: String
@@ -22,7 +22,7 @@ class Clothing {
   init(
     id: UUID = .init(),
     title: String?,
-    clothingImage: URL,
+    clothingImage: Data,
     clothingType: ClothingType,
     warmthLevel: WarmthLevel,
     clothingColor: Color = .black
