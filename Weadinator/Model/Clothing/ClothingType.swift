@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum ClothingType: String, Codable {
+enum ClothingType: String, Codable, CaseIterable {
   case jacket
   case shirt
   case trousers
