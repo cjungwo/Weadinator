@@ -6,8 +6,12 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct HomeView: View {
+    @Query var clothingList: [Clothing]
+    
+    
     var body: some View {
         VStack{
             HStack{
@@ -44,21 +48,115 @@ struct HomeView: View {
             .background(Color(UIColor.lightGray))
             .padding(.vertical)
             Spacer()
-            VStack {
-                Image(systemName: "plus.app")
-                    .font(.system(size: 100))
-                    .foregroundColor(.gray)
-                VStack{
-                    Text("Add your clothes")
-                        .font(.headline)
-                        .foregroundColor(.gray)
-                }
-            }
+//            if clothingList.isEmpty {
+//                EmptyClothingView()
+//            } else {
+            RecommendationClothingView()
+//            }
             Spacer()
         }
+    }
+}
+
+
+//MARK: EmptyClothingView
+private struct EmptyClothingView: View {
+    fileprivate var body: some View {
+        VStack {
+            Image(systemName: "plus.app")
+                .font(.system(size: 100))
+                .foregroundColor(.gray)
+            VStack{
+                Text("Add your clothes")
+                    .font(.headline)
+                    .foregroundColor(.gray)
+            }
+        }
+    }
+}
+
+//MARK: RecommendationClothingView
+private struct RecommendationClothingView: View {
+    fileprivate var body: some View {
+        TabView {
+            RecommedationClothingListView()
+            Text("Recommendation Clothing View")
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(CustomColor.color3)
+                .cornerRadius(10)
+                .padding()
+            Text("Recommendation Clothing View2")
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(CustomColor.color3)
+                .cornerRadius(10)
+                .padding()
+            Text("Recommendation Clothing View3")
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(CustomColor.color3)
+                .cornerRadius(10)
+                .padding()
+        }
+        .tabViewStyle(PageTabViewStyle())
+        .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
+    }
+}
+
+//MARK: RecommedationClothingListView
+private struct RecommedationClothingListView: View {
+    fileprivate var body: some View {
+        HStack {
+            VStack{
+                Rectangle()
+                    .foregroundColor(.red)
+                    .frame(width: 88, height: 130)
+                    .background(
+                        Image(systemName:"clothing.fill")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .clipped()
+                    )
+            }
+            VStack{
+                Rectangle()
+                    .foregroundColor(.red)
+                    .frame(width: 88, height: 130)
+                    .background(
+                        Image(systemName:"clothing.fill")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .clipped()
+                    )
+                Rectangle()
+                    .foregroundColor(.blue)
+                    .frame(width: 88, height: 130)
+                    .background(
+                        Image(systemName:"clothing.fill")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .clipped()
+                    )
+                Rectangle()
+                    .foregroundColor(.white)
+                    .frame(width: 88, height: 50)
+                    .background(
+                        Image(systemName:"clothing.fill")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .clipped()
+                    )
+            }
+            VStack{
+                
+            }
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(CustomColor.color3)
+        .cornerRadius(10)
+        .padding()
     }
 }
 
 #Preview {
     HomeView()
 }
+
