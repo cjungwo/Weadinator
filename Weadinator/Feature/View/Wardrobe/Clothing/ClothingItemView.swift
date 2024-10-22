@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ClothingItemView: View {
-    var clothing: Clothing
+  var clothing: Clothing
 
   init(
     of clothing: Clothing
@@ -16,27 +16,24 @@ struct ClothingItemView: View {
     self.clothing = clothing
   }
 
-    var body: some View {
-        VStack {
-            if let uiImage = UIImage(data: clothing.clothingImage) {
-                Image(uiImage: uiImage)
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 200, height: 200)
-                    .cornerRadius(10)
-            } else {
-                Image(systemName: "photo")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 200, height: 200)
-                    .foregroundColor(.gray)
-            }
-
-            Text(clothing.title)
-                .font(.headline)
-                .padding()
-        }
+  var body: some View {
+    VStack {
+      if let uiImage = UIImage(data: clothing.clothingImage!) {
+        Image(uiImage: uiImage)
+          .resizable()
+          .foregroundColor(.clear)
+          .frame(width: 100, height: 140)
+          .background(CustomColor.color1)
+          .cornerRadius(CustomRadius.radius8)
+      } else {
+        Image("PATH_TO_IMAGE")
+          .resizable()
+          .aspectRatio(contentMode: .fill)
+          .frame(width: 100, height: 140)
+          .clipped()
+      }
     }
+  }
 }
 
 #Preview {

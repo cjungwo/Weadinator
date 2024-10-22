@@ -12,7 +12,7 @@ struct AddClothingView: View {
   @StateObject var manager: ClothingManager = .init()
 
   var body: some View {
-    VStack {
+    VStack(spacing: CustomSpace.space24) {
       imagePicker
 
       VStack(spacing: CustomSpace.space16) {
@@ -21,29 +21,108 @@ struct AddClothingView: View {
         clothingTypePicker
 
         warmthLevelPicker
-
-//        AddBtn(action: abc)
-
       }
       .padding(.horizontal, CustomPadding.padding16)
 
+      AddBtn(action: manager.addBtnTapped)
+        .padding(.horizontal, CustomPadding.padding16)
     }
   }
 
+  //MARK: - imagePicker
   var imagePicker: some View {
-    VStack {}
+    VStack {
+      if let data = manager.clothing.clothingImage, let uiImage = UIImage(data: data) {
+        Image(uiImage: uiImage)
+          .resizable()
+          .scaledToFill()
+          .frame(width: .infinity, height:  300)
+      } else {
+        Rectangle()
+          .fill(.gray.opacity(0.5))
+          .frame(width: .infinity, height: 300)
+          .overlay {
+            PhotosPicker(selection: $manager.selectedImage, matching: .images, photoLibrary: .shared()) {
+              Label("Add Your Clothing Image", systemImage: "photo")
+            }
+            .foregroundStyle(.black)
+          }
+      }
+    }
+    .overlay {
+      if manager.clothing.clothingImage != nil {
+        HStack {
+          PhotosPicker(selection: $manager.selectedImage, matching: .images, photoLibrary: .shared()) {
+            Label("Change", systemImage: "photo")
+          }
+
+          Spacer()
+            .frame(width: 32)
+
+          Button(role: .destructive) {
+            withAnimation {
+              manager.selectedImage = nil
+              manager.clothing.clothingImage = nil
+            }
+          } label: {
+            Label("Remove", systemImage: "trash")
+              .foregroundStyle(.red)
+          }
+        }
+        .frame(height: 48)
+        .hSpacing(.center)
+        .background(.black.opacity(0.8))
+        .vSpacing(.bottom)
+      }
+    }
+    .task(id: manager.selectedImage) {
+      if let data = try? await manager.selectedImage?.loadTransferable(type: Data.self) {
+        manager.clothing.clothingImage = data
+      }
+    }
   }
 
+  //MARK: - titleTextField
   var titleTextField: some View {
-    VStack {}
+    HStack {
+      Text("Title: ")
+
+      TextField(manager.title, text: $manager.clothing.title, prompt: Text("Alias"))
+    }
   }
 
+  //MARK: - clothingTypePicker
   var clothingTypePicker: some View {
-    VStack {}
+    HStack {
+      Image(systemName: "tshirt")
+
+      Text("Clothing Type: ")
+
+      Spacer()
+
+      Picker("ClothingType", selection: $manager.clothing.clothingType) {
+        ForEach(ClothingType.allCases, id: \.self) { type in
+          Text(type.rawValue.capitalized)
+        }
+      }
+    }
   }
 
+  //MARK: - warmthLevelPicker
   var warmthLevelPicker: some View {
-    VStack {}
+    HStack {
+      Image(systemName: "thermometer.variable")
+
+      Text("Warmth Level: ")
+
+      Spacer()
+
+      Picker("WarmthLevel", selection: $manager.clothing.warmthLevel) {
+        ForEach(WarmthLevel.allCases, id: \.self) { level in
+          Text(level.rawValue.capitalized)
+        }
+      }
+    }
   }
 
 }

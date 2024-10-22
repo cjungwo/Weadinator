@@ -22,11 +22,11 @@ struct WardrobeView: View {
             .hSpacing(.center)
         } else {
           ScrollView {
-            ForEach(clothingList) { clothing in
-              ClothingItemView(of: clothing)
+            ForEach(ClothingType.allCases, id: \.self) { type in
+              categoryList(of: type)
             }
           }
-          .scrollIndicators(.hidden)
+          .padding(.leading, CustomPadding.padding16)
         }
       }
       .navigationTitle("Wardrobe")
@@ -41,9 +41,48 @@ struct WardrobeView: View {
     }
   }
 
+  @ViewBuilder
+  private func categoryList(of type: ClothingType) -> some View {
+    VStack {
+      HStack {
+        Text(type.rawValue.capitalized)
+          .font(.system(size: 22, weight: .medium))
+      }
+      .hSpacing(.leading)
+
+      ScrollView(.horizontal) {
+        HStack {
+          if clothingList.filter({ $0.clothingType == type }).isEmpty {
+            NavigationLink {
+              AddClothingView()
+            } label: {
+              VStack {
+                  Image(systemName: "plus.app")
+                  .resizable()
+                  .frame(width: 36, height: 36)
+                }
+              .frame(width: 100, height: 140)
+              .clipShape(RoundedRectangle(cornerRadius: CustomRadius.radius4))
+              .overlay {
+                RoundedRectangle(cornerRadius: CustomRadius.radius4)
+                  .inset(by: -0.25)
+                  .stroke(CustomColor.color1, style: StrokeStyle(lineWidth: 0.5, dash: [1, 1]))
+              }
+            }
+          } else {
+            ForEach(clothingList.filter { $0.clothingType == type }) { clothing in
+              ClothingItemView(of: clothing)
+            }
+          }
+        }
+      }
+      .scrollIndicators(.hidden)
+    }
+  }
+
   var addBtn: some View {
-    Button {
-      viewModel.isAddMode.toggle()
+    NavigationLink {
+      AddClothingView()
     } label: {
       HStack {
         Image(systemName: "plus")
@@ -69,7 +108,7 @@ struct WardrobeView: View {
 #Preview {
   WardrobeView()
     .modelContainer(ModelContainer.mock)
-    .onAppear {
-      PreviewHelper.addMockData(context: ModelContainer.mock.mainContext)
-    }
+//    .onAppear {
+//      PreviewHelper.addMockData(context: ModelContainer.mock.mainContext)
+//    }
 }
