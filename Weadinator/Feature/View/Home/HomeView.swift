@@ -14,39 +14,7 @@ struct HomeView: View {
     
     var body: some View {
         VStack{
-            HStack{
-                Image(systemName: "cloud")
-                    .font(.system(size: 80))
-                    .foregroundColor(.white)
-                    .padding(.horizontal)
-                VStack{
-                    Text("Location")
-                        .font(.headline)
-                        .foregroundColor(.white)
-                    HStack {
-                        Text("20°")
-                            .font(.system(size: 40))
-                            .foregroundColor(.white)
-                        VStack{
-                            Text("Condition")
-                                .font(.subheadline)
-                                .foregroundColor(.white)
-                            HStack{
-                                Text("L: 10°C")
-                                    .font(.caption)
-                                    .foregroundColor(.white)
-                                Text("H: 23°C")
-                                    .font(.caption)
-                                    .foregroundColor(.white)
-                            }
-                        }
-                    }
-                }
-                .padding(.horizontal)
-            }
-            .frame(width: 403, height: (160))
-            .background(Color(UIColor.lightGray))
-            .padding(.vertical)
+            WeatherShowingView()
             Spacer()
 //            if clothingList.isEmpty {
 //                EmptyClothingView()
@@ -58,6 +26,45 @@ struct HomeView: View {
     }
 }
 
+
+//MARK: WeatherShowingView
+private struct WeatherShowingView: View {
+    fileprivate var body: some View {
+        HStack{
+            Image(systemName: "cloud")
+                .font(.system(size: 80))
+                .foregroundColor(.white)
+                .padding(.horizontal)
+            VStack{
+                Text("Location")
+                    .font(.headline)
+                    .foregroundColor(.white)
+                HStack {
+                    Text("20°")
+                        .font(.system(size: 40))
+                        .foregroundColor(.white)
+                    VStack{
+                        Text("Condition")
+                            .font(.subheadline)
+                            .foregroundColor(.white)
+                        HStack{
+                            Text("L: 10°C")
+                                .font(.caption)
+                                .foregroundColor(.white)
+                            Text("H: 23°C")
+                                .font(.caption)
+                                .foregroundColor(.white)
+                        }
+                    }
+                }
+            }
+            .padding(.horizontal)
+        }
+        .frame(width: 403, height: (160))
+        .background(Color(UIColor.lightGray))
+        .padding(.vertical)
+    }
+}
 
 //MARK: EmptyClothingView
 private struct EmptyClothingView: View {
@@ -107,10 +114,10 @@ private struct RecommedationClothingListView: View {
         HStack {
             VStack{
                 Rectangle()
-                    .foregroundColor(.red)
-                    .frame(width: 88, height: 130)
+                    .foregroundColor(.clear)
+                    .frame(width: 100, height: 160)
                     .background(
-                        Image(systemName:"clothing.fill")
+                        Image(systemName:"jacket")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .clipped()
@@ -118,28 +125,28 @@ private struct RecommedationClothingListView: View {
             }
             VStack{
                 Rectangle()
-                    .foregroundColor(.red)
-                    .frame(width: 88, height: 130)
+                    .foregroundColor(.clear)
+                    .frame(width: 100, height: 160)
                     .background(
-                        Image(systemName:"clothing.fill")
+                        Image(systemName:"tshirt")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .clipped()
                     )
                 Rectangle()
-                    .foregroundColor(.blue)
-                    .frame(width: 88, height: 130)
+                    .foregroundColor(.clear)
+                    .frame(width: 100, height: 160)
                     .background(
-                        Image(systemName:"clothing.fill")
+                        Image(systemName:"hanger")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .clipped()
                     )
                 Rectangle()
-                    .foregroundColor(.white)
-                    .frame(width: 88, height: 50)
+                    .foregroundColor(.clear)
+                    .frame(width: 100, height: 70)
                     .background(
-                        Image(systemName:"clothing.fill")
+                        Image(systemName:"shoe")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .clipped()
@@ -147,10 +154,10 @@ private struct RecommedationClothingListView: View {
             }
             VStack{
                 Rectangle()
-                    .foregroundColor(.red)
-                    .frame(width: 88, height: 130)
+                    .foregroundColor(.clear)
+                    .frame(width: 100, height: 160)
                     .background(
-                        Image(systemName:"clothing.fill")
+                        Image(systemName:"bag")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .clipped()
