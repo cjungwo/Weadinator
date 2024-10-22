@@ -14,24 +14,33 @@ class Clothing {
 
   var id: UUID
   var title: String
-  var clothingImage: Data
+
+  var clothingImage: Data?
   var clothingType: ClothingType
   var warmthLevel: WarmthLevel
   var clothingColor: String
 
   init(
     id: UUID = .init(),
-    title: String?,
-    clothingImage: Data,
-    clothingType: ClothingType,
-    warmthLevel: WarmthLevel,
-    clothingColor: Color = .black
+    title: String = "",
+    clothingImage: Data? = nil,
+    clothingType: ClothingType = .shirt,
+    warmthLevel: WarmthLevel = .moderate,
+    clothingColor: String = "black"
   ) {
     self.id = id
-    self.title = title ?? clothingType.rawValue + id.uuidString
-    self.clothingImage = clothingImage
+    self.title = title
     self.clothingType = clothingType
     self.warmthLevel = warmthLevel
     self.clothingColor = clothingColor.description
+  }
+
+  convenience init(
+    title: String,
+    clothingType: ClothingType,
+    warmthLevel: WarmthLevel,
+    clothingColor: Color
+  ) {
+    self.init(title: title, clothingType: clothingType, warmthLevel: warmthLevel, clothingColor: clothingColor.description)
   }
 }
