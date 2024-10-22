@@ -6,3 +6,7 @@
 //
 
 import Foundation
+
+class WardrobeViewModel: ObservableObject {
+  @Published var isAddMode: Bool = false
+}
