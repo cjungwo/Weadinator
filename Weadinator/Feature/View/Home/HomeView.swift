@@ -146,7 +146,15 @@ private struct RecommedationClothingListView: View {
                     )
             }
             VStack{
-                
+                Rectangle()
+                    .foregroundColor(.red)
+                    .frame(width: 88, height: 130)
+                    .background(
+                        Image(systemName:"clothing.fill")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .clipped()
+                    )
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
