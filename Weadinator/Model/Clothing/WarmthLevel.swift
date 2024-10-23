@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum WarmthLevel: String, Codable {
+enum WarmthLevel: String, Codable, CaseIterable {
   case cold
   case cool
   case moderate
