@@ -9,6 +9,8 @@ import SwiftUI
 import SwiftData
 
 struct HomeView: View {
+    @ObservedObject private var weatherManager = WeatherManager()
+    @State private var weather: Weather?
     @Query var clothingList: [Clothing]
     
     
