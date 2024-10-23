@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SwiftData
+import CoreLocation
 
 struct HomeView: View {
     @ObservedObject private var weatherManager = WeatherManager()
@@ -16,7 +17,40 @@ struct HomeView: View {
     
     var body: some View {
         VStack{
-            WeatherShowingView()
+           // WeatherShowingView()
+            HStack{
+                Image(systemName: weather?.condition.iconName ?? "cloud")
+                    .font(.system(size: 80))
+                    .foregroundColor(.white)
+                    .padding(.horizontal)
+                VStack{
+                    Text("Location")
+                        .font(.headline)
+                        .foregroundColor(.white)
+                    HStack {
+                        Text("\(Int(weather?.currentTemp ?? 0))°")
+                            .font(.system(size: 40))
+                            .foregroundColor(.white)
+                        VStack{
+                            Text(weather?.condition.description ?? "Unknown")
+                                .font(.subheadline)
+                                .foregroundColor(.white)
+                            HStack{
+                                Text("L: \(Int(weather?.temperatureLow ?? 0))°C")
+                                    .font(.caption)
+                                    .foregroundColor(.white)
+                                Text("H: \(Int(weather?.temperatureHigh ?? 0))°C")
+                                    .font(.caption)
+                                    .foregroundColor(.white)
+                            }
+                        }
+                    }
+                }
+                .padding(.horizontal)
+            }
+            .frame(width: 403, height: (160))
+            .background(Color(UIColor.lightGray))
+            .padding(.vertical)
             Spacer()
 //            if clothingList.isEmpty {
 //                EmptyClothingView()
@@ -25,15 +59,32 @@ struct HomeView: View {
 //            }
             Spacer()
         }
+        .onAppear {
+            Task {
+                await fetchWeather()
+            }
+        }
     }
+    
+    private func fetchWeather() async {
+            let location = CLLocation(latitude: -33.876295, longitude: 151.1985883)
+            do {
+                let fetchedWeather = try await weatherManager.fetchWeather(for: location)
+                weather = fetchedWeather
+            } catch {
+                print("Failed to fetch weather: \(error)")
+            }
+        }
 }
 
 
 //MARK: WeatherShowingView
 private struct WeatherShowingView: View {
+    var weather: Weather?
+    
     fileprivate var body: some View {
         HStack{
-            Image(systemName: "cloud")
+            Image(systemName: weather?.condition.iconName ?? "cloud")
                 .font(.system(size: 80))
                 .foregroundColor(.white)
                 .padding(.horizontal)
@@ -42,18 +93,18 @@ private struct WeatherShowingView: View {
                     .font(.headline)
                     .foregroundColor(.white)
                 HStack {
-                    Text("20°")
+                    Text("\(Int(weather?.currentTemp ?? 0))°")
                         .font(.system(size: 40))
                         .foregroundColor(.white)
                     VStack{
-                        Text("Condition")
+                        Text(weather?.condition.description ?? "Unknown")
                             .font(.subheadline)
                             .foregroundColor(.white)
                         HStack{
-                            Text("L: 10°C")
+                            Text("L: \(Int(weather?.temperatureLow ?? 0))°C")
                                 .font(.caption)
                                 .foregroundColor(.white)
-                            Text("H: 23°C")
+                            Text("H: \(Int(weather?.temperatureHigh ?? 0))°C")
                                 .font(.caption)
                                 .foregroundColor(.white)
                         }

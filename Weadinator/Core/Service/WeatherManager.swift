@@ -17,7 +17,7 @@ class WeatherManager: ObservableObject {
         let latitude = location.coordinate.latitude
         let longitude = location.coordinate.longitude
         
-        guard let url = URL(string: "\(baseURL)?lat=\(latitude)&lon=\(longitude)&appid=\(apiKey)") else {
+        guard let url = URL(string: "\(baseURL)?lat=\(latitude)&lon=\(longitude)&units=metric&appid=\(apiKey)") else {
             print("Invalide URL")
             return nil
         }
@@ -29,6 +29,7 @@ class WeatherManager: ObservableObject {
         let json = try JSONSerialization.jsonObject(with: data) as? [String: Any]
         
         guard let main = json?["main"] as? [String: Any],
+              let currentTemp = main["temp"] as? Double,
               let tempHigh = main["temp_max"] as? Double,
               let tempLow = main["temp_min"] as? Double,
               let weatherArray = json?["weather"] as? [[String: Any]],
@@ -45,6 +46,7 @@ class WeatherManager: ObservableObject {
             date: Date(),
             longitude: longitude,
             latitude: latitude,
+            currentTemp: currentTemp,
             temperatureHigh: tempHigh,
             temperatureLow: tempLow,
             condition: condition,
