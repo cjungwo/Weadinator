@@ -32,7 +32,7 @@ struct WardrobeView: View {
       .navigationTitle("Wardrobe")
       .toolbar {
         ToolbarItem {
-          addBtn
+          toolBarAddBtn
         }
       }
       .sheet(isPresented: $viewModel.isAddMode) {
@@ -46,7 +46,7 @@ struct WardrobeView: View {
     VStack {
       HStack {
         Text(type.rawValue.capitalized)
-          .font(.system(size: 22, weight: .medium))
+          .title3Text
       }
       .hSpacing(.leading)
 
@@ -56,18 +56,7 @@ struct WardrobeView: View {
             NavigationLink {
               AddClothingView()
             } label: {
-              VStack {
-                  Image(systemName: "plus.app")
-                  .resizable()
-                  .frame(width: 36, height: 36)
-                }
-              .frame(width: 100, height: 140)
-              .clipShape(RoundedRectangle(cornerRadius: CustomRadius.radius4))
-              .overlay {
-                RoundedRectangle(cornerRadius: CustomRadius.radius4)
-                  .inset(by: -0.25)
-                  .stroke(CustomColor.color1, style: StrokeStyle(lineWidth: 0.5, dash: [1, 1]))
-              }
+              CardStyleAddBtn()
             }
           } else {
             ForEach(clothingList.filter { $0.clothingType == type }) { clothing in
@@ -80,7 +69,8 @@ struct WardrobeView: View {
     }
   }
 
-  var addBtn: some View {
+  //MARK: - toolBarAddBtn
+  var toolBarAddBtn: some View {
     NavigationLink {
       AddClothingView()
     } label: {
@@ -90,7 +80,7 @@ struct WardrobeView: View {
           .bold()
 
         Text("Add")
-          .font(.system(size: 16, weight: .medium))
+          .btnText
       }
       .foregroundStyle(CustomColor.color1)
       .padding(.horizontal, CustomPadding.padding8)
@@ -101,6 +91,24 @@ struct WardrobeView: View {
           .inset(by: -0.25)
           .stroke(CustomColor.color1, style: StrokeStyle(lineWidth: 0.5, dash: [1, 1]))
       )
+    }
+  }
+}
+
+//MARK: - CardStyleAddBtn
+private struct CardStyleAddBtn: View {
+  fileprivate var body: some View {
+    VStack {
+        Image(systemName: "plus.app")
+        .resizable()
+        .frame(width: 36, height: 36)
+      }
+    .frame(width: 100, height: 140)
+    .clipShape(RoundedRectangle(cornerRadius: CustomRadius.radius4))
+    .overlay {
+      RoundedRectangle(cornerRadius: CustomRadius.radius4)
+        .inset(by: -0.25)
+        .stroke(CustomColor.color1, style: StrokeStyle(lineWidth: 0.5, dash: [1, 1]))
     }
   }
 }

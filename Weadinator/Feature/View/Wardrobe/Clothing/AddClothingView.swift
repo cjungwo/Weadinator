@@ -35,12 +35,11 @@ struct AddClothingView: View {
       if let data = manager.clothing.clothingImage, let uiImage = UIImage(data: data) {
         Image(uiImage: uiImage)
           .resizable()
-          .scaledToFill()
-          .frame(width: .infinity, height:  300)
+          .aspectRatio(1/2, contentMode: .fit)
       } else {
         Rectangle()
           .fill(.gray.opacity(0.5))
-          .frame(width: .infinity, height: 300)
+          .aspectRatio(1/2, contentMode: .fit)
           .overlay {
             PhotosPicker(selection: $manager.selectedImage, matching: .images, photoLibrary: .shared()) {
               Label("Add Your Clothing Image", systemImage: "photo")
@@ -86,6 +85,7 @@ struct AddClothingView: View {
   var titleTextField: some View {
     HStack {
       Text("Title: ")
+        .labelText
 
       TextField(manager.title, text: $manager.clothing.title, prompt: Text("Alias"))
     }
@@ -95,8 +95,10 @@ struct AddClothingView: View {
   var clothingTypePicker: some View {
     HStack {
       Image(systemName: "tshirt")
+        .bold()
 
       Text("Clothing Type: ")
+        .labelText
 
       Spacer()
 
@@ -112,8 +114,11 @@ struct AddClothingView: View {
   var warmthLevelPicker: some View {
     HStack {
       Image(systemName: "thermometer.variable")
+        .bold()
 
       Text("Warmth Level: ")
+        .labelText
+        .padding(.leading, CustomPadding.padding8)
 
       Spacer()
 
@@ -123,6 +128,7 @@ struct AddClothingView: View {
         }
       }
     }
+    .padding(.leading, CustomPadding.padding4)
   }
 
 }
@@ -142,7 +148,7 @@ private struct AddBtn: View {
       action()
     } label: {
       Text("Add")
-        .font(.system(size: 16, weight: .bold))
+        .btnText
         .foregroundStyle(.white)
     }
     .padding(CustomPadding.padding16)

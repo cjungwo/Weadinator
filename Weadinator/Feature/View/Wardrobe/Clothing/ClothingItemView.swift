@@ -17,8 +17,10 @@ struct ClothingItemView: View {
   }
 
   var body: some View {
-    VStack {
-      if let uiImage = UIImage(data: clothing.clothingImage!) {
+    NavigationLink {
+      ClothingDetailView()
+    } label: {
+      if let uiImage = UIImage(data: clothing.clothingImage ?? UIImage(systemName: "trash")!.jpegData(compressionQuality: 0.8)!) {
         Image(uiImage: uiImage)
           .resizable()
           .foregroundColor(.clear)
@@ -37,5 +39,7 @@ struct ClothingItemView: View {
 }
 
 #Preview {
-  ClothingItemView(of: Clothing(title: "Test", clothingImage: UIImage(systemName: "tshirt")!.jpegData(compressionQuality: 0.8)!, clothingType: .shirt, warmthLevel: .hot))
+  NavigationStack {
+    ClothingItemView(of: Clothing(title: "Test", clothingImage: UIImage(systemName: "tshirt")!.jpegData(compressionQuality: 0.8)!, clothingType: .shirt, warmthLevel: .hot))
+  }
 }
