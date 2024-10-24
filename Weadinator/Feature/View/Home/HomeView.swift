@@ -19,10 +19,11 @@ struct HomeView: View {
         VStack{
            // WeatherShowingView()
             HStack{
-                Image(systemName: weather?.condition.iconName ?? "cloud")
-                    .font(.system(size: 80))
-                    .foregroundColor(.white)
-                    .padding(.horizontal)
+//                Image(systemName: weather?.condition.iconName ?? "cloud")
+//                    .font(.system(size: 80))
+//                    .foregroundColor(.white)
+//                    .padding(.horizontal)
+                WeatherIconView(iconUrl: "https://openweathermap.org/img/wn/\(weather?.iconCode ?? "01d")@2x.png", size: 100)
                 VStack{
                     Text("Location")
                         .font(.headline)
@@ -32,7 +33,7 @@ struct HomeView: View {
                             .font(.system(size: 40))
                             .foregroundColor(.white)
                         VStack{
-                            Text(weather?.condition.description ?? "Unknown")
+                            Text(weather?.description ?? "Unknown")
                                 .font(.subheadline)
                                 .foregroundColor(.white)
                             HStack{
@@ -223,6 +224,45 @@ private struct RecommedationClothingListView: View {
         .padding()
     }
 }
+
+//MARK: WeatherIconView
+private struct WeatherIconView: View {
+    var iconUrl: String
+    var size: CGFloat
+
+    fileprivate var body: some View {
+        AsyncImage(url: URL(string: iconUrl)) { phase in
+            switch phase {
+            case .empty:
+                // Placeholder while loading
+                ProgressView()
+                    .frame(width: size, height: size)
+            case .success(let image):
+                // Display the fetched image
+                image
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: size, height: size)
+            case .failure:
+                // Display an error image or icon
+                Image(systemName: "exclamationmark.triangle")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: size, height: size)
+                    .foregroundColor(.red)
+            @unknown default:
+                // Fallback case
+                Image(systemName: "questionmark")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: size, height: size)
+                    .foregroundColor(.gray)
+            }
+        }
+    }
+}
+
+
 
 #Preview {
     HomeView()

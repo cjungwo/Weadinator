@@ -24,7 +24,7 @@ class WeatherManager: ObservableObject {
         
         let (data,_) = try await URLSession.shared.data(from: url)
         
-        let decoder = JSONDecoder()
+        //let decoder = JSONDecoder()
         
         let json = try JSONSerialization.jsonObject(with: data) as? [String: Any]
         
@@ -33,7 +33,10 @@ class WeatherManager: ObservableObject {
               let tempHigh = main["temp_max"] as? Double,
               let tempLow = main["temp_min"] as? Double,
               let weatherArray = json?["weather"] as? [[String: Any]],
-              let weatherMain = weatherArray.first?["main"] as? String else {
+              let firstWeather = weatherArray.first,
+              let weatherMain = firstWeather["main"] as? String,
+              let weatherDescription = firstWeather["description"] as? String,
+              let weatherIconCode = firstWeather["icon"] as? String else {
             print("JSON parsing failed")
             return nil
         }
@@ -50,7 +53,9 @@ class WeatherManager: ObservableObject {
             temperatureHigh: tempHigh,
             temperatureLow: tempLow,
             condition: condition,
-            precipitation: precipitation
+            precipitation: precipitation,
+            description: weatherDescription,
+            iconCode: weatherIconCode
         )
         return weather
     }
