@@ -10,34 +10,33 @@ import SwiftData
 import CoreLocation
 
 struct HomeView: View {
-    @ObservedObject private var weatherManager = WeatherManager()
-    @State private var weather: Weather?
+    @StateObject private var weatherManager = WeatherManager()
     @StateObject private var locationManager = LocationManager()
     @Query var clothingList: [Clothing]
     
     
     var body: some View {
         VStack{
-           // WeatherShowingView()
+            // WeatherShowingView()
             HStack{
-                WeatherIconView(iconUrl: "https://openweathermap.org/img/wn/\(weather?.iconCode ?? "01d")@2x.png", size: 100)
+                WeatherIconView(iconUrl: "https://openweathermap.org/img/wn/\(weatherManager.weather?.iconCode ?? "01d")@2x.png", size: 100)
                 VStack{
                     Text("Location")
                         .font(.headline)
                         .foregroundColor(.white)
                     HStack {
-                        Text("\(Int(weather?.currentTemp ?? 0))°")
+                        Text("\(Int(weatherManager.weather?.currentTemp ?? 0))°")
                             .font(.system(size: 40))
                             .foregroundColor(.white)
                         VStack{
-                            Text(weather?.description ?? "Unknown")
+                            Text(weatherManager.weather?.description ?? "Unknown")
                                 .font(.subheadline)
                                 .foregroundColor(.white)
                             HStack{
-                                Text("L: \(Int(weather?.temperatureLow ?? 0))°C")
+                                Text("L: \(Int(weatherManager.weather?.temperatureLow ?? 0))°C")
                                     .font(.caption)
                                     .foregroundColor(.white)
-                                Text("H: \(Int(weather?.temperatureHigh ?? 0))°C")
+                                Text("H: \(Int(weatherManager.weather?.temperatureHigh ?? 0))°C")
                                     .font(.caption)
                                     .foregroundColor(.white)
                             }
@@ -50,29 +49,30 @@ struct HomeView: View {
             .background(Color(UIColor.lightGray))
             .padding(.vertical)
             Spacer()
-//            if clothingList.isEmpty {
-//                EmptyClothingView()
-//            } else {
+            //            if clothingList.isEmpty {
+            //                EmptyClothingView()
+            //            } else {
             RecommendationClothingView()
-//            }
+            //            }
             Spacer()
         }
         .onAppear {
             Task {
-                await fetchWeather()
+                let location = locationManager.location ?? CLLocation(latitude: -33.876295, longitude: 151.1985883)
+                await weatherManager.fetchWeather(for: location)
             }
         }
     }
     
-    private func fetchWeather() async {
-        let location = locationManager.location ?? CLLocation(latitude: -33.876295, longitude: 151.1985883)
-            do {
-                let fetchedWeather = try await weatherManager.fetchWeather(for: location)
-                weather = fetchedWeather
-            } catch {
-                print("Failed to fetch weather: \(error)")
-            }
-        }
+//    private func fetchWeather() async {
+//        let location = locationManager.location ?? CLLocation(latitude: -33.876295, longitude: 151.1985883)
+//        do {
+//            let fetchedWeather = try await weatherManager.fetchWeather(for: location)
+//            weather = fetchedWeather
+//        } catch {
+//            print("Failed to fetch weather: \(error)")
+//        }
+//    }
 }
 
 
@@ -226,7 +226,7 @@ private struct RecommedationClothingListView: View {
 private struct WeatherIconView: View {
     var iconUrl: String
     var size: CGFloat
-
+    
     fileprivate var body: some View {
         AsyncImage(url: URL(string: iconUrl)) { phase in
             switch phase {
@@ -244,11 +244,11 @@ private struct WeatherIconView: View {
                 // Display an error image or icon
                 ProgressView()
                     .frame(width: size, height: size)
-//                Image(systemName: "exclamationmark.triangle")
-//                    .resizable()
-//                    .scaledToFit()
-//                    .frame(width: size, height: size)
-//                    .foregroundColor(.red)
+                //                Image(systemName: "exclamationmark.triangle")
+                //                    .resizable()
+                //                    .scaledToFit()
+                //                    .frame(width: size, height: size)
+                //                    .foregroundColor(.red)
             @unknown default:
                 // Fallback case
                 Image(systemName: "questionmark")
