@@ -12,6 +12,7 @@ import CoreLocation
 struct HomeView: View {
     @ObservedObject private var weatherManager = WeatherManager()
     @State private var weather: Weather?
+    @StateObject private var locationManager = LocationManager()
     @Query var clothingList: [Clothing]
     
     
@@ -19,10 +20,6 @@ struct HomeView: View {
         VStack{
            // WeatherShowingView()
             HStack{
-//                Image(systemName: weather?.condition.iconName ?? "cloud")
-//                    .font(.system(size: 80))
-//                    .foregroundColor(.white)
-//                    .padding(.horizontal)
                 WeatherIconView(iconUrl: "https://openweathermap.org/img/wn/\(weather?.iconCode ?? "01d")@2x.png", size: 100)
                 VStack{
                     Text("Location")
@@ -68,7 +65,7 @@ struct HomeView: View {
     }
     
     private func fetchWeather() async {
-            let location = CLLocation(latitude: -33.876295, longitude: 151.1985883)
+        let location = locationManager.location ?? CLLocation(latitude: -33.876295, longitude: 151.1985883)
             do {
                 let fetchedWeather = try await weatherManager.fetchWeather(for: location)
                 weather = fetchedWeather
@@ -245,11 +242,13 @@ private struct WeatherIconView: View {
                     .frame(width: size, height: size)
             case .failure:
                 // Display an error image or icon
-                Image(systemName: "exclamationmark.triangle")
-                    .resizable()
-                    .scaledToFit()
+                ProgressView()
                     .frame(width: size, height: size)
-                    .foregroundColor(.red)
+//                Image(systemName: "exclamationmark.triangle")
+//                    .resizable()
+//                    .scaledToFit()
+//                    .frame(width: size, height: size)
+//                    .foregroundColor(.red)
             @unknown default:
                 // Fallback case
                 Image(systemName: "questionmark")
