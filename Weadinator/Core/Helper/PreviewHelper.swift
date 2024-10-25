@@ -21,28 +21,28 @@ class PreviewHelper {
         clothingImage: mockImageData(),
         clothingType: .jacket,
         warmthLevel: .cool,
-        clothingColor: Color.blue.description
+        clothingColor: .beige
       ),
       .init(
         title: "T-Shirt",
         clothingImage: mockImageData(),
         clothingType: .shirt,
         warmthLevel: .hot,
-        clothingColor: Color.white.description
+        clothingColor: .white
       ),
       .init(
         title: "Sweater",
         clothingImage: mockImageData(),
         clothingType: .jacket,
         warmthLevel: .cold,
-        clothingColor: Color.gray.description
+        clothingColor: .gray
       ),
       .init(
         title: "Jeans",
         clothingImage: mockImageData(),
         clothingType: .trousers,
         warmthLevel: .moderate,
-        clothingColor: Color.blue.description
+        clothingColor: .blue
       )
 
     ]
