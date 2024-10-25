@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ClothingDetailView: View {
   @Environment(\.modelContext) private var modelContext
+  @Environment(\.dismiss) private var dismiss
 
   @Bindable var clothing: Clothing
 
@@ -56,7 +57,7 @@ struct ClothingDetailView: View {
         }
         .padding(.vertical, CustomPadding.padding8)
 
-        LargeButtonStyle(title: "Remove", bgColor: .white, fgColor: .red) {
+        LargeButtonStyle(title: "Remove", bgColor: CustomColor.color4, fgColor: .white) {
           isAlertMode.toggle()
         }
         .padding(.vertical, CustomPadding.padding8)
@@ -73,6 +74,7 @@ struct ClothingDetailView: View {
       Button("Remove", role: .destructive) {
         modelContext.delete(clothing)
         isAlertMode.toggle()
+        dismiss()
       }
     }
 
