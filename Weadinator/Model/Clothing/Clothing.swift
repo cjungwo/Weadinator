@@ -18,29 +18,20 @@ class Clothing {
   var clothingImage: Data?
   var clothingType: ClothingType
   var warmthLevel: WarmthLevel
-  var clothingColor: String
+  var clothingColor: ClothingColor
 
   init(
     id: UUID = .init(),
-    title: String = "",
+    title: String? = nil,
     clothingImage: Data? = nil,
     clothingType: ClothingType = .shirt,
     warmthLevel: WarmthLevel = .moderate,
-    clothingColor: String = "black"
+    clothingColor: ClothingColor = .black
   ) {
     self.id = id
-    self.title = title
+    self.title = title ?? "\(clothingType.rawValue)#\(id.uuidString)"
     self.clothingType = clothingType
     self.warmthLevel = warmthLevel
-    self.clothingColor = clothingColor.description
-  }
-
-  convenience init(
-    title: String,
-    clothingType: ClothingType,
-    warmthLevel: WarmthLevel,
-    clothingColor: Color
-  ) {
-    self.init(title: title, clothingType: clothingType, warmthLevel: warmthLevel, clothingColor: clothingColor.description)
+    self.clothingColor = clothingColor
   }
 }
