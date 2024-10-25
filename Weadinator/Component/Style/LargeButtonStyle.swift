@@ -8,11 +8,24 @@
 import SwiftUI
 
 struct LargeButtonStyle: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
-}
+  var title: String
+  var bgColor: Color = CustomColor.backgroundColor
+  var fgColor: Color = .white
+  var action: () -> Void
 
-#Preview {
-    LargeButtonStyle()
+  var body: some View {
+    Button {
+      action()
+    } label: {
+      HStack {
+        Text(title)
+          .btnText
+          .foregroundStyle(fgColor)
+      }
+        .padding(CustomPadding.padding16)
+        .hSpacing(.center)
+        .background(bgColor)
+        .cornerRadius(CustomRadius.radius8)
+    }
+  }
 }
