@@ -19,9 +19,7 @@ class ClothingManager: ObservableObject {
   func createNewClothing() -> Clothing {
     let clothing = Clothing()
 
-    if title != "" {
-      clothing.title = title
-    }
+    clothing.title = title != "" ? title : "\(clothingType)#\(clothing.id)"
     clothing.clothingImage = selectedImageData
     clothing.clothingColor = clothingColor
     clothing.clothingType = clothingType
