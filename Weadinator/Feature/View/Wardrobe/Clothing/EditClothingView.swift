@@ -99,6 +99,9 @@ struct EditClothingView: View {
           }
 
           LargeButtonStyle(title: "Done") {
+            if !manager.checkTypeInTitle(clothing: clothing) {
+              clothing.title = manager.customTitle(clothing: clothing)
+            }
             isEditMode = false
           }
         }
