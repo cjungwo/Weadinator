@@ -9,12 +9,29 @@
 /* Begin PBXBuildFile section */
 		3A8C2B462CB6396E00A728B3 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 3A8C2B452CB6396E00A728B3 /* README.md */; };
 		3A8C2B852CB662DF00A728B3 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 3A8C2B842CB662DF00A728B3 /* .gitignore */; };
+		3AB983D82CCDA2D900571A8F /* Testing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3AB983D72CCDA2D900571A8F /* Testing.framework */; };
+		3AB983D92CCDA2D900571A8F /* Testing.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3AB983D72CCDA2D900571A8F /* Testing.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		3AB983DA2CCDA2D900571A8F /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				3AB983D92CCDA2D900571A8F /* Testing.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		3A8C2B2A2CB638DF00A728B3 /* Weadinator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Weadinator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A8C2B452CB6396E00A728B3 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		3A8C2B842CB662DF00A728B3 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		3AB983D72CCDA2D900571A8F /* Testing.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Testing.framework; path = Platforms/iPhoneOS.platform/Developer/Library/Frameworks/Testing.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -41,6 +58,11 @@
 			path = Document;
 			sourceTree = "<group>";
 		};
+		3AB983D32CCDA27100571A8F /* Text */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Text;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,6 +70,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3AB983D82CCDA2D900571A8F /* Testing.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -57,10 +80,12 @@
 		3A8C2B212CB638DE00A728B3 = {
 			isa = PBXGroup;
 			children = (
+				3AB983D32CCDA27100571A8F /* Text */,
 				3AABADCA2CBB2A2F00ABB71E /* Document */,
 				3A8C2B842CB662DF00A728B3 /* .gitignore */,
 				3A8C2B452CB6396E00A728B3 /* README.md */,
 				3A8C2B2C2CB638DF00A728B3 /* Weadinator */,
+				3AB983D62CCDA2D900571A8F /* Frameworks */,
 				3A8C2B2B2CB638DF00A728B3 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -73,6 +98,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		3AB983D62CCDA2D900571A8F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3AB983D72CCDA2D900571A8F /* Testing.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -83,6 +116,7 @@
 				3A8C2B262CB638DF00A728B3 /* Sources */,
 				3A8C2B272CB638DF00A728B3 /* Frameworks */,
 				3A8C2B282CB638DF00A728B3 /* Resources */,
+				3AB983DA2CCDA2D900571A8F /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -91,6 +125,7 @@
 			fileSystemSynchronizedGroups = (
 				3A8C2B2C2CB638DF00A728B3 /* Weadinator */,
 				3AABADCA2CBB2A2F00ABB71E /* Document */,
+				3AB983D32CCDA27100571A8F /* Text */,
 			);
 			name = Weadinator;
 			packageProductDependencies = (
