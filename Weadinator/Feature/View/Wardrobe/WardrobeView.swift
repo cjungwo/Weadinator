@@ -37,9 +37,6 @@ struct WardrobeView: View {
           toolBarAddBtn
         }
       }
-      .sheet(isPresented: $viewModel.isAddMode) {
-        AddClothingView()
-      }
     }
     .onAppear {
       print("DEBUG: WardrobeView onAppear")

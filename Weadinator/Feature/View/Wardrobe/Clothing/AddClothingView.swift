@@ -13,6 +13,8 @@ struct AddClothingView: View {
   @Environment(\.modelContext) var modelContext
 
   @StateObject var manager: ClothingManager = .init()
+  @StateObject var viewModel: WardrobeViewModel = .init()
+
 
   var body: some View {
     VStack(spacing: CustomSpace.space24) {
@@ -42,6 +44,27 @@ struct AddClothingView: View {
       }
         .padding(.horizontal, CustomPadding.padding16)
     }
+    .toolbar(.hidden, for: .tabBar)
+    .navigationBarBackButtonHidden()
+    .toolbar {
+      ToolbarItem(placement: .cancellationAction) {
+        Button {
+          viewModel.isAlertMode.toggle()
+        } label: {
+          Image(systemName: "xmark")
+            .bold()
+        }
+
+      }
+    }
+    .alert("", isPresented: $viewModel.isAlertMode) {
+      Button("Discard", role: .destructive) {
+        dismiss()
+      }
+
+    } message: {
+      Text("If you go back now, your clothing will be discarded.")
+    }
   }
 
   //MARK: - imagePicker
@@ -68,6 +91,7 @@ struct AddClothingView: View {
         HStack {
           PhotosPicker(selection: $manager.selectedImage, matching: .images, photoLibrary: .shared()) {
             Label("Change", systemImage: "photo")
+              .bold()
           }
 
           Spacer()
@@ -81,11 +105,12 @@ struct AddClothingView: View {
           } label: {
             Label("Remove", systemImage: "trash")
               .foregroundStyle(.red)
+              .bold()
           }
         }
         .frame(height: 48)
         .hSpacing(.center)
-        .background(.black.opacity(0.8))
+        .background(.white.opacity(0.8))
         .vSpacing(.bottom)
       }
     }
@@ -169,5 +194,7 @@ struct AddClothingView: View {
 
 
 #Preview {
-  AddClothingView()
+  NavigationStack {
+    AddClothingView()
+  }
 }
