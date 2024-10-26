@@ -12,9 +12,10 @@ import CoreLocation
 struct HomeView: View {
     @StateObject private var weatherManager = WeatherManager()
     @StateObject private var locationManager = LocationManager()
+//    @StateObject private var coordinator = Coordinator()
+
     @Query var clothingList: [Clothing]
-    
-    
+
     var body: some View {
         VStack{
             // WeatherShowingView()
@@ -63,16 +64,6 @@ struct HomeView: View {
             }
         }
     }
-    
-//    private func fetchWeather() async {
-//        let location = locationManager.location ?? CLLocation(latitude: -33.876295, longitude: 151.1985883)
-//        do {
-//            let fetchedWeather = try await weatherManager.fetchWeather(for: location)
-//            weather = fetchedWeather
-//        } catch {
-//            print("Failed to fetch weather: \(error)")
-//        }
-//    }
 }
 
 
@@ -137,22 +128,9 @@ private struct EmptyClothingView: View {
 private struct RecommendationClothingView: View {
     fileprivate var body: some View {
         TabView {
-            RecommedationClothingListView()
-            Text("Recommendation Clothing View")
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(CustomColor.color3)
-                .cornerRadius(10)
-                .padding()
-            Text("Recommendation Clothing View2")
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(CustomColor.color3)
-                .cornerRadius(10)
-                .padding()
-            Text("Recommendation Clothing View3")
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(CustomColor.color3)
-                .cornerRadius(10)
-                .padding()
+          ForEach(0..<4) { _ in
+              RecommedationClothingListView()
+            }
         }
         .tabViewStyle(PageTabViewStyle())
         .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
@@ -169,6 +147,7 @@ private struct RecommedationClothingListView: View {
                     .frame(width: 100, height: 160)
                     .background(
                         Image(systemName:"jacket")
+//                        Image(uiImage: UIImage(data: style[0].clothingImage))
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .clipped()
