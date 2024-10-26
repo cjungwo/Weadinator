@@ -31,6 +31,13 @@ struct AddClothingView: View {
 
       LargeButtonStyle(title: "Add") {
         modelContext.insert(manager.createNewClothing())
+        do {
+          try modelContext.save()
+          print("SUCCESS: Weather data added successfully")
+        } catch {
+          print("ERROR: Failed to save data - \(error)")
+        }
+        print("DEBUG: Added new model")
         dismiss()
       }
         .padding(.horizontal, CustomPadding.padding16)
