@@ -24,7 +24,7 @@ class WeatherManager: ObservableObject {
         
         let (data,_) = try await URLSession.shared.data(from: url)
         
-        let decoder = JSONDecoder()
+//        let decoder = JSONDecoder()
         
         let json = try JSONSerialization.jsonObject(with: data) as? [String: Any]
         

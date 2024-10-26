@@ -9,7 +9,7 @@ import SwiftUI
 
 struct LargeButtonStyle: View {
   var title: String
-  var bgColor: Color = CustomColor.backgroundColor
+  var bgColor: Color = CustomColor.bgColor
   var fgColor: Color = .white
   var action: () -> Void
 
