@@ -21,64 +21,33 @@ class PreviewHelper {
         clothingImage: mockImageData(),
         clothingType: .jacket,
         warmthLevel: .cool,
-        clothingColor: Color.blue.description
+        clothingColor: .beige
       ),
       .init(
         title: "T-Shirt",
         clothingImage: mockImageData(),
         clothingType: .shirt,
         warmthLevel: .hot,
-        clothingColor: Color.white.description
+        clothingColor: .white
       ),
       .init(
         title: "Sweater",
         clothingImage: mockImageData(),
         clothingType: .jacket,
         warmthLevel: .cold,
-        clothingColor: Color.gray.description
+        clothingColor: .gray
       ),
       .init(
         title: "Jeans",
         clothingImage: mockImageData(),
         clothingType: .trousers,
         warmthLevel: .moderate,
-        clothingColor: Color.blue.description
+        clothingColor: .blue
       )
 
-    ]
-
-    let mockWeatherItems: [Weather] = [
-      .init(
-        date: Date(),
-        location: CLLocation(latitude: 37.7749, longitude: -122.4194), // San Francisco
-        temperatureHigh: 22.0,
-        temperatureLow: 15.0,
-        condition: .sunny,
-        precipitation: 0.0
-      ),
-      .init(
-        date: Calendar.current.date(byAdding: .day, value: -1, to: Date())!,
-        location: CLLocation(latitude: 34.0522, longitude: -118.2437), // Los Angeles
-        temperatureHigh: 25.0,
-        temperatureLow: 18.0,
-        condition: .cloudy,
-        precipitation: 0.1
-      ),
-      .init(
-        date: Calendar.current.date(byAdding: .day, value: -2, to: Date())!,
-        location: CLLocation(latitude: 40.7128, longitude: -74.0060), // New York
-        temperatureHigh: 28.0,
-        temperatureLow: 20.0,
-        condition: .rainy,
-        precipitation: 10.0
-      )
     ]
 
     for item in mockClothingItems {
-      context.insert(item)
-    }
-
-    for item in mockWeatherItems {
       context.insert(item)
     }
   }

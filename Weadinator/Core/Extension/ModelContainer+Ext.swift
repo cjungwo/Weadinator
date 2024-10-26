@@ -10,7 +10,7 @@ import SwiftData
 
 extension ModelContainer {
     static let mock: ModelContainer = {
-        let schema = Schema([Clothing.self, Weather.self])
+        let schema = Schema([Clothing.self])
         return try! ModelContainer(for: schema)
     }()
 }

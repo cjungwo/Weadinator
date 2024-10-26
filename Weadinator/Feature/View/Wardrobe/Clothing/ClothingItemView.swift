@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct ClothingItemView: View {
-  var clothing: Clothing
-
+  @Bindable var clothing: Clothing
+  
   init(
     of clothing: Clothing
   ) {
@@ -18,9 +18,10 @@ struct ClothingItemView: View {
 
   var body: some View {
     NavigationLink {
-      ClothingDetailView()
+      ClothingDetailView(clothing: clothing)
+        .toolbar(.hidden, for: .tabBar)
     } label: {
-      if let uiImage = UIImage(data: clothing.clothingImage ?? UIImage(systemName: "trash")!.jpegData(compressionQuality: 0.8)!) {
+      if let uiImage = UIImage(data: clothing.clothingImage ?? UIImage(systemName: "tshirt")!.jpegData(compressionQuality: 0.8)!) {
         Image(uiImage: uiImage)
           .resizable()
           .foregroundColor(.clear)

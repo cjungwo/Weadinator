@@ -115,8 +115,5 @@ private struct CardStyleAddBtn: View {
 
 #Preview {
   WardrobeView()
-    .modelContainer(ModelContainer.mock)
-//    .onAppear {
-//      PreviewHelper.addMockData(context: ModelContainer.mock.mainContext)
-//    }
+    .modelContainer(for: [Clothing.self], inMemory: true)
 }

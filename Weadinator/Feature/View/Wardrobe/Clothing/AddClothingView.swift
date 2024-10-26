@@ -9,6 +9,9 @@ import SwiftUI
 import PhotosUI
 
 struct AddClothingView: View {
+  @Environment(\.dismiss) var dismiss
+  @Environment(\.modelContext) var modelContext
+
   @StateObject var manager: ClothingManager = .init()
 
   var body: some View {
@@ -18,13 +21,18 @@ struct AddClothingView: View {
       VStack(spacing: CustomSpace.space16) {
         titleTextField
 
+        clothingColorPicker
+
         clothingTypePicker
 
         warmthLevelPicker
       }
       .padding(.horizontal, CustomPadding.padding16)
 
-      AddBtn(action: manager.addBtnTapped)
+      LargeButtonStyle(title: "Add") {
+        modelContext.insert(manager.createNewClothing())
+        dismiss()
+      }
         .padding(.horizontal, CustomPadding.padding16)
     }
   }
@@ -32,36 +40,36 @@ struct AddClothingView: View {
   //MARK: - imagePicker
   var imagePicker: some View {
     VStack {
-      if let data = manager.clothing.clothingImage, let uiImage = UIImage(data: data) {
+      if let data = manager.selectedImageData, let uiImage = UIImage(data: data) {
         Image(uiImage: uiImage)
           .resizable()
-          .aspectRatio(1/2, contentMode: .fit)
+          .aspectRatio(2/3, contentMode: .fit)
       } else {
         Rectangle()
           .fill(.gray.opacity(0.5))
-          .aspectRatio(1/2, contentMode: .fit)
+          .aspectRatio(2/3, contentMode: .fit)
           .overlay {
             PhotosPicker(selection: $manager.selectedImage, matching: .images, photoLibrary: .shared()) {
-              Label("Add Your Clothing Image", systemImage: "photo")
+              Label("Add Clothing Image", systemImage: "photo")
             }
             .foregroundStyle(.black)
           }
       }
     }
     .overlay {
-      if manager.clothing.clothingImage != nil {
+      if manager.selectedImageData != nil {
         HStack {
           PhotosPicker(selection: $manager.selectedImage, matching: .images, photoLibrary: .shared()) {
             Label("Change", systemImage: "photo")
           }
 
           Spacer()
-            .frame(width: 32)
+            .frame(width: 24)
 
           Button(role: .destructive) {
             withAnimation {
               manager.selectedImage = nil
-              manager.clothing.clothingImage = nil
+              manager.selectedImageData = nil
             }
           } label: {
             Label("Remove", systemImage: "trash")
@@ -76,7 +84,7 @@ struct AddClothingView: View {
     }
     .task(id: manager.selectedImage) {
       if let data = try? await manager.selectedImage?.loadTransferable(type: Data.self) {
-        manager.clothing.clothingImage = data
+        manager.selectedImageData = data
       }
     }
   }
@@ -87,7 +95,7 @@ struct AddClothingView: View {
       Text("Title: ")
         .labelText
 
-      TextField(manager.title, text: $manager.clothing.title, prompt: Text("Alias"))
+      TextField(manager.title, text: $manager.title, prompt: Text("Alias"))
     }
   }
 
@@ -102,7 +110,7 @@ struct AddClothingView: View {
 
       Spacer()
 
-      Picker("ClothingType", selection: $manager.clothing.clothingType) {
+      Picker("ClothingType", selection: $manager.clothingType) {
         ForEach(ClothingType.allCases, id: \.self) { type in
           Text(type.rawValue.capitalized)
         }
@@ -122,7 +130,7 @@ struct AddClothingView: View {
 
       Spacer()
 
-      Picker("WarmthLevel", selection: $manager.clothing.warmthLevel) {
+      Picker("WarmthLevel", selection: $manager.warmthLevel) {
         ForEach(WarmthLevel.allCases, id: \.self) { level in
           Text(level.rawValue.capitalized)
         }
@@ -131,33 +139,26 @@ struct AddClothingView: View {
     .padding(.leading, CustomPadding.padding4)
   }
 
-}
+  //MARK: - clothingColorPicker
+  var clothingColorPicker: some View {
+    HStack {
+      Image(systemName: "paintpalette")
+        .bold()
 
-// MARK: - AddBtn
-private struct AddBtn: View {
-  var action: () -> Void
+      Text("Clothing Color: ")
+        .labelText
+        .padding(.leading, CustomPadding.padding4)
 
-  init(
-    action: @escaping () -> Void
-  ) {
-    self.action = action
-  }
+      Spacer()
 
-  fileprivate var body: some View {
-    Button {
-      action()
-    } label: {
-      Text("Add")
-        .btnText
-        .foregroundStyle(.white)
+      Picker("ClothingColor", selection: $manager.clothingColor) {
+        ForEach(ClothingColor.allCases, id: \.self) { color in
+          Text(color.rawValue.capitalized)
+        }
+      }
     }
-    .padding(CustomPadding.padding16)
-    .hSpacing(.center)
-    .background(CustomColor.backgroundColor)
-    .cornerRadius(CustomRadius.radius8)
   }
 }
-
 
 
 #Preview {

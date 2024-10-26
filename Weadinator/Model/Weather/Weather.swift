@@ -7,34 +7,18 @@
 
 import Foundation
 import CoreLocation
-import SwiftData
 
-@Model
-class Weather {
-  #Unique<Weather>([\.date])
 
-  var date: Date
-  var longitube: Double
-  var latitube: Double
-  var temperatureHigh: Double
-  var temperatureLow: Double
-  var condition: WeatherCondition
-  var precipitation: Double
 
-  init(
-    date: Date,
-    location: CLLocation,
-    temperatureHigh: Double,
-    temperatureLow: Double,
-    condition: WeatherCondition,
-    precipitation: Double
-  ) {
-    self.date = date
-    self.longitube = location.coordinate.longitude
-    self.latitube = location.coordinate.latitude
-    self.temperatureHigh = temperatureHigh
-    self.temperatureLow = temperatureLow
-    self.condition = condition
-    self.precipitation = precipitation
-  }
+struct Weather: Codable {
+    var date: Date
+    var longitude: Double
+    var latitude: Double
+    var currentTemp: Double
+    var temperatureHigh: Double
+    var temperatureLow: Double
+    var condition: WeatherCondition
+    var precipitation: Double
+    var description: String
+    var iconCode: String
 }

@@ -8,6 +8,11 @@
 import SwiftUI
 
 extension Text {
+  var title2Text: some View {
+    self
+    .font(.system(size: 24, weight: .medium))
+  }
+
   var title3Text: some View {
     self
     .font(.system(size: 22, weight: .medium))
