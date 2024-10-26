@@ -19,4 +19,6 @@ struct Weather: Codable {
     var temperatureLow: Double
     var condition: WeatherCondition
     var precipitation: Double
+    var description: String
+    var iconCode: String
 }
