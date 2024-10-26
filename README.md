@@ -7,7 +7,7 @@ Coordinate based on Weather
 
 ## Tech Env
 - Swift 6
-- Xcode 16.1 Beta
+- Xcode 16.1
 - iOS 18.1
 
 ## Tech Spec
