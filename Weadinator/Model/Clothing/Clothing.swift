@@ -30,6 +30,7 @@ class Clothing {
   ) {
     self.id = id
     self.title = title ?? "\(clothingType.rawValue)#\(id.uuidString)"
+    self.clothingImage = clothingImage
     self.clothingType = clothingType
     self.warmthLevel = warmthLevel
     self.clothingColor = clothingColor
