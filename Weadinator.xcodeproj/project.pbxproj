@@ -11,10 +11,34 @@
 		3A8C2B852CB662DF00A728B3 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 3A8C2B842CB662DF00A728B3 /* .gitignore */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		3AB984572CCDAC8400571A8F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3A8C2B222CB638DE00A728B3 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3A8C2B292CB638DF00A728B3;
+			remoteInfo = Weadinator;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		3AB983DA2CCDA2D900571A8F /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		3A8C2B2A2CB638DF00A728B3 /* Weadinator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Weadinator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A8C2B452CB6396E00A728B3 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		3A8C2B842CB662DF00A728B3 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		3AB984532CCDAC8400571A8F /* WeadinatorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WeadinatorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -41,10 +65,22 @@
 			path = Document;
 			sourceTree = "<group>";
 		};
+		3AB984542CCDAC8400571A8F /* WeadinatorTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = WeadinatorTests;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		3A8C2B272CB638DF00A728B3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3AB984502CCDAC8400571A8F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -61,6 +97,7 @@
 				3A8C2B842CB662DF00A728B3 /* .gitignore */,
 				3A8C2B452CB6396E00A728B3 /* README.md */,
 				3A8C2B2C2CB638DF00A728B3 /* Weadinator */,
+				3AB984542CCDAC8400571A8F /* WeadinatorTests */,
 				3A8C2B2B2CB638DF00A728B3 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -69,6 +106,7 @@
 			isa = PBXGroup;
 			children = (
 				3A8C2B2A2CB638DF00A728B3 /* Weadinator.app */,
+				3AB984532CCDAC8400571A8F /* WeadinatorTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -83,6 +121,7 @@
 				3A8C2B262CB638DF00A728B3 /* Sources */,
 				3A8C2B272CB638DF00A728B3 /* Frameworks */,
 				3A8C2B282CB638DF00A728B3 /* Resources */,
+				3AB983DA2CCDA2D900571A8F /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -99,6 +138,29 @@
 			productReference = 3A8C2B2A2CB638DF00A728B3 /* Weadinator.app */;
 			productType = "com.apple.product-type.application";
 		};
+		3AB984522CCDAC8400571A8F /* WeadinatorTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3AB9845B2CCDAC8400571A8F /* Build configuration list for PBXNativeTarget "WeadinatorTests" */;
+			buildPhases = (
+				3AB9844F2CCDAC8400571A8F /* Sources */,
+				3AB984502CCDAC8400571A8F /* Frameworks */,
+				3AB984512CCDAC8400571A8F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				3AB984582CCDAC8400571A8F /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				3AB984542CCDAC8400571A8F /* WeadinatorTests */,
+			);
+			name = WeadinatorTests;
+			packageProductDependencies = (
+			);
+			productName = WeadinatorTests;
+			productReference = 3AB984532CCDAC8400571A8F /* WeadinatorTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -106,11 +168,15 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1610;
+				LastSwiftUpdateCheck = 1600;
 				LastUpgradeCheck = 1610;
 				TargetAttributes = {
 					3A8C2B292CB638DF00A728B3 = {
 						CreatedOnToolsVersion = 16.1;
+					};
+					3AB984522CCDAC8400571A8F = {
+						CreatedOnToolsVersion = 16.0;
+						TestTargetID = 3A8C2B292CB638DF00A728B3;
 					};
 				};
 			};
@@ -129,6 +195,7 @@
 			projectRoot = "";
 			targets = (
 				3A8C2B292CB638DF00A728B3 /* Weadinator */,
+				3AB984522CCDAC8400571A8F /* WeadinatorTests */,
 			);
 		};
 /* End PBXProject section */
@@ -143,6 +210,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		3AB984512CCDAC8400571A8F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -153,7 +227,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		3AB9844F2CCDAC8400571A8F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		3AB984582CCDAC8400571A8F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3A8C2B292CB638DF00A728B3 /* Weadinator */;
+			targetProxy = 3AB984572CCDAC8400571A8F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		3A8C2B362CB638E200A728B3 /* Debug */ = {
@@ -351,6 +440,52 @@
 			};
 			name = Release;
 		};
+		3AB984592CCDAC8400571A8F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = D3AGUG8XDN;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.1;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.vxdeveloper.WeadinatorTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,7";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Weadinator.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Weadinator";
+				XROS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Debug;
+		};
+		3AB9845A2CCDAC8400571A8F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = D3AGUG8XDN;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.1;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.vxdeveloper.WeadinatorTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,7";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Weadinator.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Weadinator";
+				XROS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -368,6 +503,15 @@
 			buildConfigurations = (
 				3A8C2B392CB638E200A728B3 /* Debug */,
 				3A8C2B3A2CB638E200A728B3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3AB9845B2CCDAC8400571A8F /* Build configuration list for PBXNativeTarget "WeadinatorTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3AB984592CCDAC8400571A8F /* Debug */,
+				3AB9845A2CCDAC8400571A8F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
