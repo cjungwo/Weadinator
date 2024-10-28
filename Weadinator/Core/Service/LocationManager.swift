@@ -15,7 +15,7 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     
     @Published var location: CLLocation?
     @Published var authorizationStatus: CLAuthorizationStatus?
-    @Published var locationName: String? = "Unknown"
+    @Published var locationName: String = "Failed data loading"
     
     override init() {
         super.init()
@@ -32,10 +32,15 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     }
     
     private func updateLocationName(from location: CLLocation) {
-            geocoder.reverseGeocodeLocation(location) { [weak self] placemarks, error in
-                guard let self = self, error == nil, let placemark = placemarks?.first else { return }
-                self.locationName = placemark.locality ?? "Unknown"
-            }
+        geocoder.reverseGeocodeLocation(location) { [weak self] placemarks, error in
+            guard let self = self, error == nil else { return }
+            
+            guard let placemark = placemarks?.first else { return }
+            
+            guard let locationName = placemark.locality else { return }
+            
+            self.locationName = locationName
+        }
         }
         
     
