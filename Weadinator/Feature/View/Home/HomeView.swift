@@ -18,58 +18,63 @@ struct HomeView: View {
     @Query var clothingList: [Clothing]
     
     var body: some View {
-        VStack{
-            // WeatherShowingView()
-            HStack{
-                WeatherIconView(iconUrl: "https://openweathermap.org/img/wn/\(weatherManager.weather?.iconCode ?? "01d")@2x.png", size: 100)
-                Text("\(Int(weatherManager.weather?.currentTemp ?? 0))°")
-                    .font(.system(size: 40))
-                    .foregroundColor(.white)
-
-                VStack(alignment: .leading){
-                    Text(locationManager.locationName ?? "Location")
-                        .font(.headline)
+        NavigationStack {
+            VStack{
+                HStack{
+                    WeatherIconView(iconUrl: "https://openweathermap.org/img/wn/\(weatherManager.weather?.iconCode ?? "01d")@2x.png", size: 100)
+                    Text("\(Int(weatherManager.weather?.currentTemp ?? 0))°")
+                        .font(.system(size: 40))
                         .foregroundColor(.white)
-                    HStack {
-                                                VStack{
-                            Text(weatherManager.weather?.description ?? "Unknown")
-                                .font(.subheadline)
-                                .foregroundColor(.white)
-                            HStack{
-                                Text("L: \(Int(weatherManager.weather?.temperatureLow ?? 0))°C")
-                                    .font(.caption)
+                    
+                    VStack(alignment: .leading){
+                        Text(locationManager.locationName)
+                            .font(.headline)
+                            .foregroundColor(.white)
+                        HStack {
+                            VStack{
+                                Text(weatherManager.weather?.description ?? "Unknown")
+                                    .font(.subheadline)
                                     .foregroundColor(.white)
-                                Text("H: \(Int(weatherManager.weather?.temperatureHigh ?? 0))°C")
-                                    .font(.caption)
-                                    .foregroundColor(.white)
+                                HStack{
+                                    Text("L: \(Int(weatherManager.weather?.temperatureLow ?? 0))°C")
+                                        .font(.caption)
+                                        .foregroundColor(.white)
+                                    Text("H: \(Int(weatherManager.weather?.temperatureHigh ?? 0))°C")
+                                        .font(.caption)
+                                        .foregroundColor(.white)
+                                }
                             }
                         }
                     }
+                    .padding(.horizontal)
                 }
-                .padding(.horizontal)
+                .frame(width: 403, height: (160))
+                .background(Color(UIColor.lightGray))
+                .padding(.vertical)
+                Spacer()
+                if clothingList.isEmpty {
+                    NavigationLink {
+                        AddClothingView()
+                    } label: {
+                        EmptyClothingListView()
+                    }
+                } else {
+                    RecommendationStyleListView(styleList: styleList)
+                }
+                Spacer()
             }
-            .frame(width: 403, height: (160))
-            .background(Color(UIColor.lightGray))
-            .padding(.vertical)
-            Spacer()
-            //            if clothingList.isEmpty {
-            //                EmptyClothingView()
-            //            } else {
-            RecommendationClothingView(styleList: styleList)
-            //            }
-            Spacer()
-        }
-        .onAppear {
-            Task {
-                let location = locationManager.location ?? CLLocation(latitude: -33.876295, longitude: 151.1985883)
-                await weatherManager.fetchWeather(for: location)
-                
-                let tempHigh = weatherManager.weather?.temperatureHigh ?? 25
-                let tempLow = weatherManager.weather?.temperatureLow ?? 15
-                
-                let newCoordinator = Coordinator(tempHigh: tempHigh, tempLow: tempLow, clothingList: clothingList)
-                coordinator = newCoordinator
-                styleList = newCoordinator.generateStyleList()
+            .onAppear {
+                Task {
+                    let location = locationManager.location ?? CLLocation(latitude: -33.876295, longitude: 151.1985883)
+                    await weatherManager.fetchWeather(for: location)
+                    
+                    let tempHigh = weatherManager.weather?.temperatureHigh ?? 25
+                    let tempLow = weatherManager.weather?.temperatureLow ?? 15
+                    
+                    let newCoordinator = Coordinator(tempHigh: tempHigh, tempLow: tempLow, clothingList: clothingList)
+                    coordinator = newCoordinator
+                    styleList = newCoordinator.generateStyleList()
+                }
             }
         }
     }
@@ -133,13 +138,13 @@ private struct EmptyClothingView: View {
     }
 }
 
-struct RecommendationClothingView: View {
+struct RecommendationStyleListView: View {
     let styleList: [[Clothing?]]
     
     var body: some View {
         TabView {
             ForEach(0..<styleList.count, id: \.self) { index in
-                RecommendationClothingListView(style: styleList[index])
+                RecommendationStyleView(style: styleList[index])
             }
         }
         .tabViewStyle(PageTabViewStyle())
@@ -148,71 +153,24 @@ struct RecommendationClothingView: View {
 }
 
 
-struct RecommendationClothingListView: View {
+struct RecommendationStyleView: View {
     let style: [Clothing?]  // One Style from clothing type
     
     var body: some View {
         HStack {
             // Left: jacket
             VStack {
-                Rectangle()
-                    .foregroundColor(.clear)
-                    .frame(width: 100, height: 160)
-                    .background(
-                        Group {
-                            if let clothing = style[safe: 0] {
-                                clothingImage(for: clothing, alter: "jacket")
-                            }
-                        }
-                    )
+                recommandClothingView(width: 100, height: 160, index: 0, alter: "jacket")
             }
             // Middle: shirts, trousers, shoes
             VStack {
-                Rectangle()
-                    .foregroundColor(.clear)
-                    .frame(width: 100, height: 160)
-                    .background(
-                        Group {
-                            if let clothing = style[safe: 1] {
-                                clothingImage(for: clothing, alter: "tshirt")
-                            }
-                        }
-                    )
-                
-                Rectangle()
-                    .foregroundColor(.clear)
-                    .frame(width: 100, height: 160)
-                    .background(
-                        Group {
-                            if let clothing = style[safe: 2] {
-                                clothingImage(for: clothing, alter: "hanger")
-                            }
-                        }
-                    )
-                
-                Rectangle()
-                    .foregroundColor(.clear)
-                    .frame(width: 100, height: 70)
-                    .background(
-                        Group {
-                            if let clothing = style[safe: 3] {
-                                clothingImage(for: clothing, alter: "shoe")
-                            }
-                        }
-                    )
+                recommandClothingView(width: 100, height: 160, index: 1, alter: "tshirt")
+                recommandClothingView(width: 100, height: 160, index: 2, alter: "hanger")
+                recommandClothingView(width: 100, height: 70, index: 3, alter: "shoe")
             }
             // Right: bag
             VStack {
-                Rectangle()
-                    .foregroundColor(.clear)
-                    .frame(width: 100, height: 160)
-                    .background(
-                        Group {
-                            if let clothing = style[safe: 4] {
-                                clothingImage(for: clothing, alter: "bag")
-                            }
-                        }
-                    )
+                recommandClothingView(width: 100, height: 160, index: 4, alter: "bag")
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -220,6 +178,44 @@ struct RecommendationClothingListView: View {
         .cornerRadius(10)
         .padding()
     }
+    
+    // MARK: - RecommandClothingView
+      @ViewBuilder
+      private func recommandClothingView(width: Double, height: Double, index: Int, alter: String?) -> some View {
+        let clothing = clothingByIndex(index)
+
+          if clothing != nil {
+            NavigationLink {
+                ClothingDetailView(clothing: clothing!)
+            } label: {
+              Rectangle()
+                .foregroundColor(.clear)
+                .frame(width: width, height: height)
+                .background(
+                  Group {
+                      clothingImage(for: clothing, alter: alter ?? "photo")
+                  }
+                )
+            }
+          } else {
+              Rectangle()
+                .foregroundColor(.clear)
+                .frame(width: width, height: height)
+                .background(
+                  Group {
+                      clothingImage(for: clothing, alter: alter ?? "photo")
+                  }
+                )
+          }
+      }
+
+      private func clothingByIndex(_ index: Int) -> Clothing? {
+        guard let clothing = style[safe: index] else { return nil }
+
+        return clothing
+      }
+
+    
     
     // MARK: - Helper Method
     @ViewBuilder
@@ -238,11 +234,6 @@ struct RecommendationClothingListView: View {
     }
 }
 
-extension Collection {
-    subscript(safe index: Index) -> Element? {
-        return indices.contains(index) ? self[index] : nil
-    }
-}
 
 //MARK: WeatherIconView
 private struct WeatherIconView: View {
@@ -266,11 +257,6 @@ private struct WeatherIconView: View {
                 // Display an error image or icon
                 ProgressView()
                     .frame(width: size, height: size)
-                //                Image(systemName: "exclamationmark.triangle")
-                //                    .resizable()
-                //                    .scaledToFit()
-                //                    .frame(width: size, height: size)
-                //                    .foregroundColor(.red)
             @unknown default:
                 // Fallback case
                 Image(systemName: "questionmark")
@@ -283,82 +269,6 @@ private struct WeatherIconView: View {
     }
 }
 
-////MARK: RecommendationClothingView
-//private struct RecommendationClothingView: View {
-//    fileprivate var body: some View {
-//        TabView {
-//            ForEach(0..<4) { _ in
-//                RecommedationClothingListView()
-//            }
-//        }
-//        .tabViewStyle(PageTabViewStyle())
-//        .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
-//    }
-//}
-//
-////MARK: RecommedationClothingListView
-//private struct RecommedationClothingListView: View {
-//    fileprivate var body: some View {
-//        HStack {
-//            VStack{
-//                Rectangle()
-//                    .foregroundColor(.clear)
-//                    .frame(width: 100, height: 160)
-//                    .background(
-//                        Image(systemName:"jacket")
-//                        //                        Image(uiImage: UIImage(data: style[0].clothingImage))
-//                            .resizable()
-//                            .aspectRatio(contentMode: .fit)
-//                            .clipped()
-//                    )
-//            }
-//            VStack{
-//                Rectangle()
-//                    .foregroundColor(.clear)
-//                    .frame(width: 100, height: 160)
-//                    .background(
-//                        Image(systemName:"tshirt")
-//                            .resizable()
-//                            .aspectRatio(contentMode: .fit)
-//                            .clipped()
-//                    )
-//                Rectangle()
-//                    .foregroundColor(.clear)
-//                    .frame(width: 100, height: 160)
-//                    .background(
-//                        Image(systemName:"hanger")
-//                            .resizable()
-//                            .aspectRatio(contentMode: .fit)
-//                            .clipped()
-//                    )
-//                Rectangle()
-//                    .foregroundColor(.clear)
-//                    .frame(width: 100, height: 70)
-//                    .background(
-//                        Image(systemName:"shoe")
-//                            .resizable()
-//                            .aspectRatio(contentMode: .fit)
-//                            .clipped()
-//                    )
-//            }
-//            VStack{
-//                Rectangle()
-//                    .foregroundColor(.clear)
-//                    .frame(width: 100, height: 160)
-//                    .background(
-//                        Image(systemName:"bag")
-//                            .resizable()
-//                            .aspectRatio(contentMode: .fit)
-//                            .clipped()
-//                    )
-//            }
-//        }
-//        .frame(maxWidth: .infinity, maxHeight: .infinity)
-//        .background(CustomColor.color3)
-//        .cornerRadius(10)
-//        .padding()
-//    }
-//}
 
 #Preview {
     HomeView()
