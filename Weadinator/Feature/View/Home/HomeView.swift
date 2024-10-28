@@ -12,10 +12,11 @@ import CoreLocation
 struct HomeView: View {
     @StateObject private var weatherManager = WeatherManager()
     @StateObject private var locationManager = LocationManager()
-//    @StateObject private var coordinator = Coordinator()
-
+    @State private var coordinator : Coordinator?
+    @State private var styleList: [[Clothing?]] = []
+    
     @Query var clothingList: [Clothing]
-
+    
     var body: some View {
         VStack{
             // WeatherShowingView()
@@ -53,7 +54,7 @@ struct HomeView: View {
             //            if clothingList.isEmpty {
             //                EmptyClothingView()
             //            } else {
-            RecommendationClothingView()
+            RecommendationClothingView(styleList: styleList)
             //            }
             Spacer()
         }
@@ -61,6 +62,13 @@ struct HomeView: View {
             Task {
                 let location = locationManager.location ?? CLLocation(latitude: -33.876295, longitude: 151.1985883)
                 await weatherManager.fetchWeather(for: location)
+                
+                let tempHigh = weatherManager.weather?.temperatureHigh ?? 25
+                let tempLow = weatherManager.weather?.temperatureLow ?? 15
+                
+                let newCoordinator = Coordinator(tempHigh: tempHigh, tempLow: tempLow, clothingList: clothingList)
+                coordinator = newCoordinator
+                styleList = newCoordinator.generateStyleList()
             }
         }
     }
@@ -124,12 +132,90 @@ private struct EmptyClothingView: View {
     }
 }
 
-//MARK: RecommendationClothingView
-private struct RecommendationClothingView: View {
-    fileprivate var body: some View {
+////MARK: RecommendationClothingView
+//private struct RecommendationClothingView: View {
+//    fileprivate var body: some View {
+//        TabView {
+//            ForEach(0..<4) { _ in
+//                RecommedationClothingListView()
+//            }
+//        }
+//        .tabViewStyle(PageTabViewStyle())
+//        .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
+//    }
+//}
+//
+////MARK: RecommedationClothingListView
+//private struct RecommedationClothingListView: View {
+//    fileprivate var body: some View {
+//        HStack {
+//            VStack{
+//                Rectangle()
+//                    .foregroundColor(.clear)
+//                    .frame(width: 100, height: 160)
+//                    .background(
+//                        Image(systemName:"jacket")
+//                        //                        Image(uiImage: UIImage(data: style[0].clothingImage))
+//                            .resizable()
+//                            .aspectRatio(contentMode: .fit)
+//                            .clipped()
+//                    )
+//            }
+//            VStack{
+//                Rectangle()
+//                    .foregroundColor(.clear)
+//                    .frame(width: 100, height: 160)
+//                    .background(
+//                        Image(systemName:"tshirt")
+//                            .resizable()
+//                            .aspectRatio(contentMode: .fit)
+//                            .clipped()
+//                    )
+//                Rectangle()
+//                    .foregroundColor(.clear)
+//                    .frame(width: 100, height: 160)
+//                    .background(
+//                        Image(systemName:"hanger")
+//                            .resizable()
+//                            .aspectRatio(contentMode: .fit)
+//                            .clipped()
+//                    )
+//                Rectangle()
+//                    .foregroundColor(.clear)
+//                    .frame(width: 100, height: 70)
+//                    .background(
+//                        Image(systemName:"shoe")
+//                            .resizable()
+//                            .aspectRatio(contentMode: .fit)
+//                            .clipped()
+//                    )
+//            }
+//            VStack{
+//                Rectangle()
+//                    .foregroundColor(.clear)
+//                    .frame(width: 100, height: 160)
+//                    .background(
+//                        Image(systemName:"bag")
+//                            .resizable()
+//                            .aspectRatio(contentMode: .fit)
+//                            .clipped()
+//                    )
+//            }
+//        }
+//        .frame(maxWidth: .infinity, maxHeight: .infinity)
+//        .background(CustomColor.color3)
+//        .cornerRadius(10)
+//        .padding()
+//    }
+//}
+
+struct RecommendationClothingView: View {
+    let styleList: [[Clothing?]]
+    
+    var body: some View {
         TabView {
-          ForEach(0..<4) { _ in
-              RecommedationClothingListView()
+            ForEach(0..<styleList.count, id: \.self) { index in
+                RecommendationClothingListView(style: styleList[index])
             }
         }
         .tabViewStyle(PageTabViewStyle())
@@ -137,60 +223,96 @@ private struct RecommendationClothingView: View {
     }
 }
 
-//MARK: RecommedationClothingListView
-private struct RecommedationClothingListView: View {
-    fileprivate var body: some View {
+
+struct RecommendationClothingListView: View {
+    let style: [Clothing?]  // One Style from clothing type
+    
+    var body: some View {
         HStack {
-            VStack{
+            // Left: jacket
+            VStack {
                 Rectangle()
                     .foregroundColor(.clear)
                     .frame(width: 100, height: 160)
                     .background(
-                        Image(systemName:"jacket")
-//                        Image(uiImage: UIImage(data: style[0].clothingImage))
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .clipped()
+                        Group {
+                            if let clothing = style[safe: 0] {
+                                clothingImage(for: clothing)
+                            } else {
+                                Image(systemName: "jacket")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .foregroundColor(.gray)
+                            }
+                        }
                     )
             }
-            VStack{
+            // Middle: shirts, trousers, shoes
+            VStack {
                 Rectangle()
                     .foregroundColor(.clear)
                     .frame(width: 100, height: 160)
                     .background(
-                        Image(systemName:"tshirt")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .clipped()
+                        Group {
+                            if let clothing = style[safe: 1] {
+                                clothingImage(for: clothing)
+                            } else {
+                                Image(systemName: "tshirt")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .foregroundColor(.gray)
+                            }
+                        }
                     )
+                
                 Rectangle()
                     .foregroundColor(.clear)
                     .frame(width: 100, height: 160)
                     .background(
-                        Image(systemName:"hanger")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .clipped()
+                        Group {
+                            if let clothing = style[safe: 2] {
+                                clothingImage(for: clothing)
+                            } else {
+                                Image(systemName: "hanger")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .foregroundColor(.gray)
+                            }
+                        }
                     )
+                
                 Rectangle()
                     .foregroundColor(.clear)
                     .frame(width: 100, height: 70)
                     .background(
-                        Image(systemName:"shoe")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .clipped()
+                        Group {
+                            if let clothing = style[safe: 3] {
+                                clothingImage(for: clothing)
+                            } else {
+                                Image(systemName: "shoe")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .foregroundColor(.gray)
+                            }
+                        }
                     )
             }
-            VStack{
+            // Right: bag
+            VStack {
                 Rectangle()
                     .foregroundColor(.clear)
                     .frame(width: 100, height: 160)
                     .background(
-                        Image(systemName:"bag")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .clipped()
+                        Group {
+                            if let clothing = style[safe: 4] {
+                                clothingImage(for: clothing)
+                            } else {
+                                Image(systemName: "bag")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .foregroundColor(.gray)
+                            }
+                        }
                     )
             }
         }
@@ -198,6 +320,28 @@ private struct RecommedationClothingListView: View {
         .background(CustomColor.color3)
         .cornerRadius(10)
         .padding()
+    }
+    
+    // MARK: - Helper Method
+    @ViewBuilder
+    private func clothingImage(for clothing: Clothing?) -> some View {
+        if let clothing = clothing, let imageData = clothing.clothingImage, let uiImage = UIImage(data: imageData) {
+            Image(uiImage: uiImage)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .clipped()
+        } else {
+            Image(systemName: "photo")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .foregroundColor(.gray)
+        }
+    }
+}
+
+extension Collection {
+    subscript(safe index: Index) -> Element? {
+        return indices.contains(index) ? self[index] : nil
     }
 }
 
