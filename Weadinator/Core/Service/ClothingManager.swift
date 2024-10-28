@@ -19,12 +19,15 @@ class ClothingManager: ObservableObject {
   func createNewClothing() -> Clothing {
     let clothing = Clothing()
 
-    clothing.title = title
+    if title != "" {
+      clothing.title = title
+    }
     clothing.clothingImage = selectedImageData
     clothing.clothingColor = clothingColor
     clothing.clothingType = clothingType
     clothing.warmthLevel = warmthLevel
 
+    print("DEBUG: create new clothing model: \(clothing)")
     return clothing
   }
 }

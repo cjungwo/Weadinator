@@ -9,6 +9,8 @@ import SwiftUI
 import SwiftData
 
 struct WardrobeView: View {
+  @Environment(\.modelContext) var modelContext
+  
   @Query var clothingList: [Clothing]
 
   @StateObject private var viewModel: WardrobeViewModel = .init()
@@ -38,6 +40,13 @@ struct WardrobeView: View {
       .sheet(isPresented: $viewModel.isAddMode) {
         AddClothingView()
       }
+    }
+    .onAppear {
+      print("DEBUG: WardrobeView onAppear")
+    }
+    .onChange(of: clothingList) { oldValue, newValue in
+      print("DEBUG: Old value: \(oldValue)")
+      print("DEBUG: New value: \(newValue)")
     }
   }
 
