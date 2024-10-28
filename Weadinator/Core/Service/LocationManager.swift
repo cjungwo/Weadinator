@@ -11,9 +11,11 @@ import CoreLocation
 
 class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     private let locationManager = CLLocationManager()
+    private let geocoder = CLGeocoder()
     
     @Published var location: CLLocation?
     @Published var authorizationStatus: CLAuthorizationStatus?
+    @Published var locationName: String? = "Unknown"
     
     override init() {
         super.init()
@@ -26,7 +28,16 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let newLocation = locations.last else { return }
         self.location = newLocation
+        updateLocationName(from: newLocation)
     }
+    
+    private func updateLocationName(from location: CLLocation) {
+            geocoder.reverseGeocodeLocation(location) { [weak self] placemarks, error in
+                guard let self = self, error == nil, let placemark = placemarks?.first else { return }
+                self.locationName = placemark.locality ?? "Unknown"
+            }
+        }
+        
     
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         self.authorizationStatus = manager.authorizationStatus
