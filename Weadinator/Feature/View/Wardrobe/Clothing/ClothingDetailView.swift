@@ -77,6 +77,7 @@ struct ClothingDetailView: View {
         dismiss()
       }
     }
+    .toolbar(.hidden, for: .tabBar)
 
   }
 }

@@ -18,15 +18,6 @@ struct EditClothingView: View {
 
     var body: some View {
       VStack {
-        HStack {
-          Button("Done") {
-            isEditMode = false
-          }
-        }
-        .hSpacing(.trailing)
-        .padding(.trailing, CustomPadding.padding16)
-        .padding(.top, CustomPadding.padding8)
-
         VStack {
           if clothing.clothingImage != nil {
             Image(uiImage: UIImage(data: clothing.clothingImage!)!)
@@ -59,7 +50,7 @@ struct EditClothingView: View {
           }
           .frame(height: 48)
           .hSpacing(.center)
-          .background(.black.opacity(0.8))
+          .background(.white.opacity(0.8))
           .vSpacing(.bottom)
         }
         .onChange(of: manager.selectedImage) {
@@ -69,10 +60,13 @@ struct EditClothingView: View {
             }
           }
         }
+        .clipShape(RoundedRectangle(cornerRadius: CustomRadius.radius16))
+        .shadow(radius: CustomRadius.radius4, x: 0, y: 1)
 
         VStack(alignment: .leading, spacing: CustomSpace.space8) {
           TextField(clothing.title.capitalized, text: $clothing.title)
             .padding(.vertical, CustomPadding.padding8)
+
 
           HStack {
             Text("Color: ")
@@ -103,10 +97,19 @@ struct EditClothingView: View {
               }
             }
           }
+
+          LargeButtonStyle(title: "Done") {
+            if !manager.checkTypeInTitle(clothing: clothing) {
+              clothing.title = manager.customTitle(clothing: clothing)
+            }
+            isEditMode = false
+          }
         }
         .hSpacing(.leading)
         .padding(.horizontal, CustomPadding.padding16)
       }
+      .padding(.top, CustomPadding.padding8)
+
     }
 }
 

@@ -19,9 +19,7 @@ class ClothingManager: ObservableObject {
   func createNewClothing() -> Clothing {
     let clothing = Clothing()
 
-    if title != "" {
-      clothing.title = title
-    }
+    clothing.title = title != "" ? title : customTitle(clothing: clothing)
     clothing.clothingImage = selectedImageData
     clothing.clothingColor = clothingColor
     clothing.clothingType = clothingType
@@ -29,5 +27,21 @@ class ClothingManager: ObservableObject {
 
     print("DEBUG: create new clothing model: \(clothing)")
     return clothing
+  }
+
+  func checkTypeInTitle(clothing: Clothing) -> Bool {
+    if let hashIndex = clothing.title.firstIndex(of: "#") {
+      let substring = clothing.title[..<hashIndex]
+      let result = String(substring)
+      if result != clothing.clothingType.rawValue {
+        print("DEBUG: default title does not match clothing type")
+        return false
+      }
+    }
+    return true
+  }
+
+  func customTitle(clothing: Clothing) -> String {
+    return "\(clothing.clothingType)#\(clothing.id)"
   }
 }

@@ -44,6 +44,8 @@ class Coordinator: ObservableObject {
       warmthLevel = WarmthLevel.cold
     }
 
+    print("DEBUG: TempAvg - \(tempAvg), WarmthLevel - \(warmthLevel.rawValue)")
+
     return warmthLevel
   }
 
@@ -51,6 +53,8 @@ class Coordinator: ObservableObject {
     var newList = [Clothing]()
 
     newList = clothingList.filter { $0.warmthLevel == warmthLevel }
+
+    print("DEBUG: Filtered Clothing List - \(newList.count)")
 
     return newList
   }
@@ -60,6 +64,8 @@ class Coordinator: ObservableObject {
 
     newList = clothingList.filter { $0.clothingType == clothingType }
 
+    print("DEBUG: Filtered Clothing List - \(newList.count)")
+
     return newList
   }
 
@@ -68,6 +74,8 @@ class Coordinator: ObservableObject {
     let filteredListByClothingType = filterClothingListByClothingType(clothingType, from: filteredListByWarmthLevel)
 
     let randomClothing: Clothing? = filteredListByClothingType.randomElement()
+
+    print("DEBUG: Random Clothing - \(randomClothing?.title ?? "Nil")")
 
     return randomClothing
   }
@@ -79,6 +87,8 @@ class Coordinator: ObservableObject {
       newClothingList.append(getRandomClothing(clothingList: self.clothingList, clothingType: type))
     }
 
+    print("DEBUG: Generated Style - New Clothing List - \(newClothingList.count) == Clothing Types - \(ClothingType.allCases.count)")
+
     return newClothingList
   }
 
@@ -88,6 +98,8 @@ class Coordinator: ObservableObject {
     for _ in 0..<4 {
       newStyleList.append(generateStyle())
     }
+
+    print("DEBUG: Generated Style List - \(newStyleList.count) == Style Sets - \(4)")
 
     return newStyleList
   }
