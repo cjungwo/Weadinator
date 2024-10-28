@@ -160,64 +160,17 @@ struct RecommendationStyleView: View {
         HStack {
             // Left: jacket
             VStack {
-                Rectangle()
-                    .foregroundColor(.clear)
-                    .frame(width: 100, height: 160)
-                    .background(
-                        Group {
-                            if let clothing = style[safe: 0] {
-                                clothingImage(for: clothing, alter: "jacket")
-                            }
-                        }
-                    )
+                recommandClothingView(width: 100, height: 160, index: 0, alter: "jacket")
             }
             // Middle: shirts, trousers, shoes
             VStack {
-                Rectangle()
-                    .foregroundColor(.clear)
-                    .frame(width: 100, height: 160)
-                    .background(
-                        Group {
-                            if let clothing = style[safe: 1] {
-                                clothingImage(for: clothing, alter: "tshirt")
-                            }
-                        }
-                    )
-                
-                Rectangle()
-                    .foregroundColor(.clear)
-                    .frame(width: 100, height: 160)
-                    .background(
-                        Group {
-                            if let clothing = style[safe: 2] {
-                                clothingImage(for: clothing, alter: "hanger")
-                            }
-                        }
-                    )
-                
-                Rectangle()
-                    .foregroundColor(.clear)
-                    .frame(width: 100, height: 70)
-                    .background(
-                        Group {
-                            if let clothing = style[safe: 3] {
-                                clothingImage(for: clothing, alter: "shoe")
-                            }
-                        }
-                    )
+                recommandClothingView(width: 100, height: 160, index: 1, alter: "tshirt")
+                recommandClothingView(width: 100, height: 160, index: 2, alter: "hanger")
+                recommandClothingView(width: 100, height: 70, index: 3, alter: "shoe")
             }
             // Right: bag
             VStack {
-                Rectangle()
-                    .foregroundColor(.clear)
-                    .frame(width: 100, height: 160)
-                    .background(
-                        Group {
-                            if let clothing = style[safe: 4] {
-                                clothingImage(for: clothing, alter: "bag")
-                            }
-                        }
-                    )
+                recommandClothingView(width: 100, height: 160, index: 4, alter: "bag")
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -225,6 +178,44 @@ struct RecommendationStyleView: View {
         .cornerRadius(10)
         .padding()
     }
+    
+    // MARK: - RecommandClothingView
+      @ViewBuilder
+      private func recommandClothingView(width: Double, height: Double, index: Int, alter: String?) -> some View {
+        let clothing = clothingByIndex(index)
+
+          if clothing != nil {
+            NavigationLink {
+                ClothingDetailView(clothing: clothing!)
+            } label: {
+              Rectangle()
+                .foregroundColor(.clear)
+                .frame(width: width, height: height)
+                .background(
+                  Group {
+                      clothingImage(for: clothing, alter: alter ?? "photo")
+                  }
+                )
+            }
+          } else {
+              Rectangle()
+                .foregroundColor(.clear)
+                .frame(width: width, height: height)
+                .background(
+                  Group {
+                      clothingImage(for: clothing, alter: alter ?? "photo")
+                  }
+                )
+          }
+      }
+
+      private func clothingByIndex(_ index: Int) -> Clothing? {
+        guard let clothing = style[safe: index] else { return nil }
+
+        return clothing
+      }
+
+    
     
     // MARK: - Helper Method
     @ViewBuilder
