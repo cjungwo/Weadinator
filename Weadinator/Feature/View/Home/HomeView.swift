@@ -243,11 +243,6 @@ struct RecommendationStyleView: View {
     }
 }
 
-extension Collection {
-    subscript(safe index: Index) -> Element? {
-        return indices.contains(index) ? self[index] : nil
-    }
-}
 
 //MARK: WeatherIconView
 private struct WeatherIconView: View {
