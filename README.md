@@ -14,6 +14,7 @@ Daily Weather-Based Outfit Style Coordinator
 - SwiftData
 - CoreLocation
 - PhotosUI
+- Testing
 
 ## Description
 Dress perfectly for every day, rain or shine! Weadinator combines real-time weather data with your wardrobe to provide personalised outfit recommendations tailored to the current weather. Start each day with style and comfort, knowing you’re dressed just right for the forecast.
